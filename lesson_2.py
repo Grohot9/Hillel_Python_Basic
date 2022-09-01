@@ -1,5 +1,5 @@
 # Second lesson: knowledge of comments, data types, arithmetic operators, assignment operators, basic PEP-8 knowledge,
-# naming styles, escape characters, string literals, f-string and r-string
+# naming styles, concatenation escape characters, string literals, f-string and r-string
 
 # Ctrl + ? (Mac: Command + ?) for comment
 
