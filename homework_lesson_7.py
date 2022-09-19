@@ -91,8 +91,9 @@ lst = [char for char in set(my_str) if my_str.count(char) == 1]
 # которые есть в обеих строках хотя бы раз.
 str1 = "Сегодня был продуктивный день."
 str2 = "Надеюсь завтра будет ещё продуктивней."
-
 my_lst = [char for char in set(str1) if char in str2]
+
+my_lst = list(set(str1).intersection(set(str2)))
 
 # 13. Условие: Даны две строки. Создать список в который поместить те символы, которые есть в обеих строках,
 # но в каждой ТОЛЬКО ПО ОДНОМУ разу.
@@ -100,4 +101,4 @@ my_lst = [char for char in set(str1) if char in str2]
 str1 = "Сегодня был продуктивный день."
 str2 = "Надеюсь завтра будет ещё продуктивней."
 
-new_lst = [char for char in set(str1) if str1.count(char) == 1 and str2.count(char) == 1]
+new_lst = [char for char in set(str1) if str1.count(char) == str2.count(char) == 1]
