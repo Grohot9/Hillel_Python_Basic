@@ -1,4 +1,8 @@
-# 1. Условие:  Написать функцию которой передается один параметр - список строк my_list.
+import random
+import string
+
+
+# 1. Условие: Написать функцию которой передается один параметр - список строк my_list.
 # Функция возвращает новый список в котором содержаться
 # элементы из my_list по следующему правилу:
 # Если строка стоит на нечетном месте в my_list, то ее заменить на
@@ -11,7 +15,7 @@ def reverse_words_at_odd_positions(lst: list) -> list:
 my_list = ["apple", "orange", "cherry", "strawberry"]
 words_with_reverse_at_odd_positions: list = reverse_words_at_odd_positions(my_list)
 
-# 2. Условие:  Написать функцию которой передается один параметр - список строк my_list.
+# 2. Условие: Написать функцию которой передается один параметр - список строк my_list.
 # Функция возвращает новый список в котором содержаться
 # элементы из my_list у которых первый символ - буква "a".
 def filter_by_the_char_a_in_the_first_position(lst: list) -> list:
@@ -78,9 +82,6 @@ chars_that_are_occur_once_in_both_strings: list = take_chars_that_are_occur_once
 # фамилия.число_от_100_до_999@строка_букв_длинной_от_5_до_7_символов.домен
 # фамилию и домен брать случайным образом из заданных списков переданных в функцию в виде параметров.
 # Строку и число генерировать случайным образом.
-import random
-import string
-
 surnames = ["smith", "martinez", "hernandez", "rodriguez", "lopes", "johnson", "williams", "brown", "jones", "miller"]
 domains = ["com", "net", "us", "ua", "me", "org", "gov"]
 
