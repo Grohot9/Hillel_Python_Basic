@@ -25,17 +25,18 @@ def generate_txt_data() -> str:
 # такая же, как и вероятность того, что будет типа float или типа bool.
 
 
+def generate_key() -> str:
+    key = "".join([rnd.choice(string.ascii_lowercase) for _ in range(5)])
+    return key
+
+
+def generate_value() -> str:
+    value = rnd.choice([rnd.randint(-100, 100), rnd.random(), rnd.choice([True, False])])
+    return value
+
+
 def generate_json_data() -> dict:
     json_data_length = rnd.randint(5, 20)
-
-    def generate_key() -> str:
-        key = "".join([rnd.choice(string.ascii_lowercase) for _ in range(5)])
-        return key
-
-    def generate_value() -> str:
-        value = rnd.choice([rnd.randint(-100, 100), rnd.random(), rnd.choice([True, False])])
-        return value
-
     json_data = {generate_key(): generate_value() for _ in range(json_data_length)}
     return json_data
 
