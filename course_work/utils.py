@@ -58,7 +58,7 @@ def get_current_data(filename: str = "global_info.json") -> dict:
         return current_data
 
 
-def set_default_data():
+def set_default_data() -> None:
     create_global_info()
 
 
@@ -93,14 +93,14 @@ class Trader:
         with open(filename, "w") as json_file:
             json.dump(global_changes, json_file)
 
-    def get_rate(self) -> None:
+    def get_rate(self):
         current_course = self.course
         return current_course
 
     def get_account_balance(self) -> str:
         return f"USD {self.total_usd} UAH {self.total_uah}"
 
-    def buy_usd(self, usd_amount_to_buy: float) -> None:
+    def buy_usd(self, usd_amount_to_buy: float):
 
         if self.total_uah / self.course >= usd_amount_to_buy:
             self.total_usd += usd_amount_to_buy
@@ -112,7 +112,7 @@ class Trader:
             print(f"UNAVAILABLE, REQUIRED BALANCE UAH {round(usd_amount_to_buy * self.course, 2)},"
                   f" AVAILABLE {self.total_uah}")
 
-    def sell_usd(self, usd_amount_to_sell: float) -> None:
+    def sell_usd(self, usd_amount_to_sell: float):
         if self.total_usd >= usd_amount_to_sell:
             self.total_usd -= usd_amount_to_sell
             self.total_uah += usd_amount_to_sell * self.course
