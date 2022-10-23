@@ -60,7 +60,6 @@ class Quotes:
     # quotes_count = 100
     # filename = "test"
     # file_format = "json"
-    #
     # test = Quotes(quotes_count=quotes_count, filename=filename, file_format=file_format)
     # test.get_quotes()
     # test.print_quotes()
