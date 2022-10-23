@@ -38,7 +38,8 @@ class ThanosSnap:  # with encapsulation examples
             os.remove(os.path.join(self._dirname, filename))
 
 
-directory_name = "alphabet"
-example = ThanosSnap(directory_name)
-example.crate_files()
-example.do_thanos_snap()
+if __name__ == "__main__":
+    directory_name = "alphabet"
+    example = ThanosSnap(directory_name)
+    example.crate_files()
+    example.do_thanos_snap()
