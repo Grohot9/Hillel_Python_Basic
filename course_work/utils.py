@@ -52,121 +52,88 @@ def create_config_and_global_info() -> None:
     create_global_info()
 
 
-def launch_setup() -> None:
-    try:
-        current_data = get_current_data()
-        if current_data is None:
-            create_config_and_global_info()
-        else:
-            try:
-                if type(current_data["course"]) is not float:
-                    create_config_and_global_info()
-                elif type(current_data["UAH"]) is not float:
-                    create_config_and_global_info()
-                elif type(current_data["USD"]) is not float:
-                    create_config_and_global_info()
-                elif type(current_data["delta"]) is not float:
-                    create_config_and_global_info()
-            except KeyError or json.decoder.JSONDecodeError:
-                create_config_and_global_info()
-    except (json.decoder.JSONDecodeError, FileNotFoundError):
-        create_config_and_global_info()
-
-
-def get_current_data() -> dict:
-    with open("global_info.json", "r") as json_file:
+def get_current_data(filename: str = "global_info.json") -> dict:
+    with open(filename, "r") as json_file:
         current_data = json.loads(json_file.read())
         return current_data
 
 
-def change_global_info(course=None, total_uah=None, total_usd=None, delta=None) -> None:
-    current_data = get_current_data()
-    if course is None:
-        course = current_data["course"]
-    if total_uah is None:
-        total_uah = current_data["UAH"]
-    if total_usd is None:
-        total_usd = current_data["USD"]
-    if delta is None:
-        delta = current_data["delta"]
-    global_changes = {"course": course, "UAH": total_uah, "USD": total_usd, "delta": delta}
-    with open("global_info.json", "w") as json_file:
-        json.dump(global_changes, json_file)
-
-
-def get_rate() -> None:
-    current_course = get_current_data()["course"]
-    return current_course
-
-
-def get_account_balance() -> str:
-    current_data = get_current_data()
-    total_usd = current_data["USD"]
-    total_uah = current_data["UAH"]
-    return f"USD {total_usd} UAH {total_uah}"
-
-
-def buy_usd(usd_amount_to_buy: float) -> None:
-    current_data = get_current_data()
-    total_uah = current_data["UAH"]
-    total_usd = current_data["USD"]
-    course = current_data["course"]
-
-    if total_uah / course >= usd_amount_to_buy:
-        total_usd += usd_amount_to_buy
-        total_uah -= usd_amount_to_buy * course
-        total_usd = round(total_usd, 2)
-        total_uah = round(total_uah, 2)
-        change_global_info(total_usd=total_usd, total_uah=total_uah)
-    else:
-        print(f"UNAVAILABLE, REQUIRED BALANCE UAH {round(usd_amount_to_buy * course, 2)}, AVAILABLE {total_uah}")
-
-
-def sell_usd(usd_amount_to_sell: float) -> None:
-    current_data = get_current_data()
-    total_uah = current_data["UAH"]
-    total_usd = current_data["USD"]
-    course = current_data["course"]
-
-    if total_usd >= usd_amount_to_sell:
-        total_usd -= usd_amount_to_sell
-        total_uah += usd_amount_to_sell * course
-        total_usd = round(total_usd, 2)
-        total_uah = round(total_uah, 2)
-        change_global_info(total_usd=total_usd, total_uah=total_uah)
-    else:
-        print(f"UNAVAILABLE, REQUIRED BALANCE USD {usd_amount_to_sell}, AVAILABLE {total_usd}")
-
-
-def buy_max_usd() -> None:
-    current_data = get_current_data()
-    total_uah = current_data["UAH"]
-    total_usd = current_data["USD"]
-    course = current_data["course"]
-    total_usd += total_uah / course
-    total_usd = round(total_usd, 2)
-    total_uah = round(total_uah / course % 1, 2)
-    change_global_info(total_usd=total_usd, total_uah=total_uah)
-
-
-def sell_max_usd() -> None:
-    current_data = get_current_data()
-    total_uah = current_data["UAH"]
-    total_usd = current_data["USD"]
-    course = current_data["course"]
-    total_uah += total_usd * course
-    total_uah = round(total_uah, 2)
-    total_usd = round(total_usd * 2 % 1, 2)
-    change_global_info(total_usd=total_usd, total_uah=total_uah)
-
-
-def change_course() -> None:
-    current_data = get_current_data()
-    course = current_data["course"]
-    delta = current_data["delta"]
-    course_changes = round(random.uniform(course - delta, course + delta), 2)
-    change_global_info(course=course_changes)
-
-
-def set_default_data() -> None:
+def set_default_data():
     create_global_info()
+
+
+class Trader:
+    def __init__(self):
+        self.course = get_current_data()["course"]
+        self.total_uah = get_current_data()["UAH"]
+        self.total_usd = get_current_data()["USD"]
+        self.delta = get_current_data()["delta"]
+
+    def launch_setup(self):
+        try:
+            if get_current_data() is None:
+                create_config_and_global_info()
+            else:
+                try:
+                    if type(self.course) is not float:
+                        create_config_and_global_info()
+                    elif type(self.total_uah) is not float:
+                        create_config_and_global_info()
+                    elif type(self.total_usd) is not float:
+                        create_config_and_global_info()
+                    elif type(self.delta) is not float:
+                        create_config_and_global_info()
+                except KeyError or json.decoder.JSONDecodeError:
+                    create_config_and_global_info()
+        except (json.decoder.JSONDecodeError, FileNotFoundError):
+            create_config_and_global_info()
+
+    def change_global_info(self, filename: str = "global_info.json"):
+        global_changes = {"course": self.course, "UAH": self.total_uah, "USD": self.total_usd, "delta": self.delta}
+        with open(filename, "w") as json_file:
+            json.dump(global_changes, json_file)
+
+    def get_rate(self) -> None:
+        current_course = self.course
+        return current_course
+
+    def get_account_balance(self) -> str:
+        return f"USD {self.total_usd} UAH {self.total_uah}"
+
+    def buy_usd(self, usd_amount_to_buy: float) -> None:
+
+        if self.total_uah / self.course >= usd_amount_to_buy:
+            self.total_usd += usd_amount_to_buy
+            self.total_uah -= usd_amount_to_buy * self.course
+            self.total_usd = round(self.total_usd, 2)
+            self.total_uah = round(self.total_uah, 2)
+            self.change_global_info()
+        else:
+            print(f"UNAVAILABLE, REQUIRED BALANCE UAH {round(usd_amount_to_buy * self.course, 2)},"
+                  f" AVAILABLE {self.total_uah}")
+
+    def sell_usd(self, usd_amount_to_sell: float) -> None:
+        if self.total_usd >= usd_amount_to_sell:
+            self.total_usd -= usd_amount_to_sell
+            self.total_uah += usd_amount_to_sell * self.course
+            self.total_usd = round(self.total_usd, 2)
+            self.total_uah = round(self.total_uah, 2)
+            self.change_global_info()
+        else:
+            print(f"UNAVAILABLE, REQUIRED BALANCE USD {usd_amount_to_sell}, AVAILABLE {self.total_usd}")
+
+    def buy_max_usd(self):
+        self.total_usd += self.total_uah / self.course
+        self.total_usd = round(self.total_usd, 2)
+        self.total_uah = round(self.total_uah / self.course % 1, 2)
+        self.change_global_info()
+
+    def sell_max_usd(self):
+        self.total_uah += self.total_usd * self.course
+        self.total_uah = round(self.total_uah, 2)
+        self.total_usd = round(self.total_usd * 2 % 1, 2)
+        self.change_global_info()
+
+    def change_course(self):
+        self.course = round(random.uniform(self.course - self.delta, self.course + self.delta), 2)
+        self.change_global_info()
